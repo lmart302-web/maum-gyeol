@@ -951,3 +951,43 @@ textarea:focus-visible {
     }
 
 }
+
+/* ==========================================
+   감정 점수 이모티콘
+========================================== */
+
+.score-emoji {
+    display: flex;
+    justify-content: center;
+    font-size: 27px;
+    line-height: 1.4;
+}
+
+.emoji-bad {
+    display: none;
+}
+
+/* 좋음 선택 */
+.good-group .emoji-good {
+    display: inline;
+}
+
+.good-group .emoji-bad {
+    display: none;
+}
+
+/* 나쁨 선택 */
+.bad-group .emoji-good {
+    display: none;
+}
+
+.bad-group .emoji-bad {
+    display: inline;
+}
+
+.score-number {
+    display: block;
+    text-align: center;
+    margin-top: 4px;
+    font-size: 13px;
+}

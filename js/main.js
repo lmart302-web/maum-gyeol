@@ -82,6 +82,20 @@ function escapeHTML(value) {
 }
 
 // ==========================================
+// 감정 점수별 이모티콘
+// ==========================================
+
+function getEmotionEmoji(type, score) {
+
+    const emojis = {
+        good: ["😐", "🙂", "😊", "😁", "🥰"],
+        bad: ["😕", "😟", "😢", "😣", "🤬"]
+    };
+
+    return emojis[type]?.[Number(score) - 1] || "";
+}
+
+// ==========================================
 // 화면 전환
 // ==========================================
 
@@ -232,13 +246,17 @@ document.getElementById("badAverage").textContent =
                 </div>
 
                 <div class="history-scores">
-    <span class="history-score good-score">
-        좋음 ${record.goodScore == null ? "-" : Number(record.goodScore) + "점"}
-    </span>
 
-    <span class="history-score bad-score">
-        나쁨 ${record.badScore == null ? "-" : Number(record.badScore) + "점"}
-    </span>
+    <div class="history-score good-score">
+        <span>좋음</span>
+        <strong>${record.goodScore == null ? "-" : getEmotionEmoji("good", record.goodScore) + " " + escapeHTML(record.goodScore) + "점"}</strong>
+    </div>
+
+    <div class="history-score bad-score">
+        <span>나쁨</span>
+        <strong>${record.badScore == null ? "-" : getEmotionEmoji("bad", record.badScore) + " " + escapeHTML(record.badScore) + "점"}</strong>
+    </div>
+
 </div>
 
                 ${record.memo ? `
@@ -313,14 +331,18 @@ function showRecordForm() {
                     <p>④ 감정 표현의 정도</p>
 
                     <div class="score-options">
-                        ${[1, 2, 3, 4, 5].map(n => `
-                            <label class="score-option">
-                                <input type="radio" name="emotionScore"
-                                    value="${n}" required>
-                                <span>${n}</span>
-                            </label>
-                        `).join("")}
-                    </div>
+    ${[1, 2, 3, 4, 5].map(n => `
+        <label class="score-option">
+            <input type="radio" name="emotionScore"
+                value="${n}" required>
+            <span class="score-emoji">
+                <span class="emoji-good">${getEmotionEmoji("good", n)}</span>
+                <span class="emoji-bad">${getEmotionEmoji("bad", n)}</span>
+            </span>
+            <span class="score-number">${n}점</span>
+        </label>
+    `).join("")}
+</div>
                 </div>
 
                 <div class="form-group">
@@ -558,16 +580,24 @@ const records = currentRecords;
     </div>
 </div>
 
-                <div class="history-scores">
+                <<div class="history-scores">
 
     <div class="history-score good-score">
         <span>좋음</span>
-        <strong>${record.goodScore == null ? "-" : escapeHTML(record.goodScore) + "점"}</strong>
+        <strong>
+            ${record.goodScore == null
+                ? "-"
+                : getEmotionEmoji("good", record.goodScore) + " " + escapeHTML(record.goodScore) + "점"}
+        </strong>
     </div>
 
     <div class="history-score bad-score">
         <span>나쁨</span>
-        <strong>${record.badScore == null ? "-" : escapeHTML(record.badScore) + "점"}</strong>
+        <strong>
+            ${record.badScore == null
+                ? "-"
+                : getEmotionEmoji("bad", record.badScore) + " " + escapeHTML(record.badScore) + "점"}
+        </strong>
     </div>
 
 </div>
@@ -701,7 +731,11 @@ const emotionScore = String(
                 value="${n}"
                 ${Number(emotionScore) === n ? "checked" : ""}
                 required>
-            <span>${n}</span>
+            <span class="score-emoji">
+                <span class="emoji-good">${getEmotionEmoji("good", n)}</span>
+                <span class="emoji-bad">${getEmotionEmoji("bad", n)}</span>
+            </span>
+            <span class="score-number">${n}점</span>
         </label>
     `).join("")}
 </div>
