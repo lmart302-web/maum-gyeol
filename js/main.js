@@ -580,7 +580,7 @@ const records = currentRecords;
     </div>
 </div>
 
-                <<div class="history-scores">
+                <div class="history-scores">
 
     <div class="history-score good-score">
         <span>좋음</span>
@@ -861,6 +861,240 @@ async function deleteRecord(recordId) {
 
 
 // ==========================================
+// 최근 12개월 감정 변화 그래프
+// ==========================================
+
+function createMonthlyTrendChart(allRecords) {
+
+    const today = new Date();
+    const months = [];
+
+    // 최근 12개월 생성
+    for (let i = 11; i >= 0; i--) {
+        const date = new Date(
+            today.getFullYear(),
+            today.getMonth() - i,
+            1
+        );
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+
+        months.push({
+            key: `${year}-${month}`,
+            label: `${date.getMonth() + 1}월`,
+            good: [],
+            bad: []
+        });
+    }
+
+    // 월별 점수 집계
+    allRecords.forEach(record => {
+
+        const monthData = months.find(
+            item => item.key === record.date?.slice(0, 7)
+        );
+
+        if (!monthData) return;
+
+        if (record.goodScore != null) {
+            monthData.good.push(Number(record.goodScore));
+        }
+
+        if (record.badScore != null) {
+            monthData.bad.push(Number(record.badScore));
+        }
+    });
+
+    // 월별 평균 계산
+    months.forEach(item => {
+
+        item.goodAverage = item.good.length
+            ? item.good.reduce((a, b) => a + b, 0) / item.good.length
+            : null;
+
+        item.badAverage = item.bad.length
+            ? item.bad.reduce((a, b) => a + b, 0) / item.bad.length
+            : null;
+    });
+
+    // 그래프 좌표
+    const width = 760;
+    const height = 310;
+
+    const left = 55;
+    const right = 735;
+    const top = 35;
+    const bottom = 245;
+
+    const xPosition = index =>
+        left + index * (right - left) / 11;
+
+    const yPosition = score =>
+        bottom - (score / 5) * (bottom - top);
+
+    // 선 그래프 경로 생성
+    function createPath(type) {
+
+        let path = "";
+        let started = false;
+
+        months.forEach((item, index) => {
+
+            const score = item[type + "Average"];
+
+            if (score === null) {
+                started = false;
+                return;
+            }
+
+            const x = xPosition(index);
+            const y = yPosition(score);
+
+            path += started
+                ? ` L ${x} ${y}`
+                : ` M ${x} ${y}`;
+
+            started = true;
+        });
+
+        return path;
+    }
+
+    // 그래프 점 생성
+    function createPoints(type, color) {
+
+        return months.map((item, index) => {
+
+            const score = item[type + "Average"];
+
+            if (score === null) return "";
+
+            const x = xPosition(index);
+            const y = yPosition(score);
+
+            return `
+                <circle
+                    cx="${x}"
+                    cy="${y}"
+                    r="4"
+                    fill="${color}"
+                    stroke="white"
+                    stroke-width="2"
+                >
+                    <title>
+                        ${item.key} ${type === "good" ? "좋음" : "나쁨"} 평균: ${score.toFixed(2)}점
+                    </title>
+                </circle>
+            `;
+        }).join("");
+    }
+
+    return `
+        <div class="analysis-section trend-section">
+
+            <h3>최근 12개월 감정 변화</h3>
+
+            <p class="form-description">
+                월별 좋음과 나쁨 감정 점수의 평균 변화입니다.
+            </p>
+
+            <div style="display:flex; gap:20px; margin:18px 0; flex-wrap:wrap;">
+
+                <span style="color:#668b72; font-size:13px;">
+                    ● 좋음 평균
+                </span>
+
+                <span style="color:#dc8585; font-size:13px;">
+                    ● 나쁨 평균
+                </span>
+
+            </div>
+
+            <div style="width:100%; overflow:hidden;">
+
+                <svg
+                    viewBox="0 0 ${width} ${height + 30}"
+                    width="100%"
+                    role="img"
+                    aria-label="최근 12개월 좋음과 나쁨 감정 평균 변화 그래프"
+                >
+
+                    ${[0, 1, 2, 3, 4, 5].map(score => {
+
+                        const y = yPosition(score);
+
+                        return `
+                            <line
+                                x1="${left}"
+                                y1="${y}"
+                                x2="${right}"
+                                y2="${y}"
+                                stroke="#e5e7e2"
+                                stroke-width="1"
+                            />
+
+                            <text
+                                x="${left - 15}"
+                                y="${y + 4}"
+                                text-anchor="end"
+                                font-size="12"
+                                fill="#888"
+                            >${score}</text>
+                        `;
+                    }).join("")}
+
+                    <path
+                        d="${createPath("good")}"
+                        fill="none"
+                        stroke="#668b72"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    <path
+                        d="${createPath("bad")}"
+                        fill="none"
+                        stroke="#dc8585"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
+
+                    ${createPoints("good", "#668b72")}
+                    ${createPoints("bad", "#dc8585")}
+
+                    ${months.map((item, index) => `
+                        <text
+                            x="${xPosition(index)}"
+                            y="275"
+                            text-anchor="middle"
+                            font-size="12"
+                            fill="#888"
+                        >${item.label}</text>
+                    `).join("")}
+
+                    <text
+                        x="15"
+                        y="15"
+                        font-size="11"
+                        fill="#888"
+                    >점수</text>
+
+                </svg>
+
+            </div>
+
+            <p class="form-description">
+                세로축은 0~5점이며, 기록이 없는 달은 그래프에 표시하지 않습니다.
+            </p>
+
+        </div>
+    `;
+}
+
+// ==========================================
 // 월별 분석 (다음 단계에서 구현)
 // ==========================================
 
@@ -910,9 +1144,16 @@ async function renderAnalysis(selectedMonth) {
     try {
         const snapshot = await getDocs(recordsCollection);
 
-        const records = snapshot.docs
-            .map(document => document.data())
-            .filter(record => record.date?.startsWith(selectedMonth));
+        const allRecords = snapshot.docs
+    .map(document => document.data());
+
+// 최근 12개월 그래프 생성
+const trendChart = createMonthlyTrendChart(allRecords);
+
+// 선택한 월의 분석 데이터
+const records = allRecords.filter(record =>
+    record.date?.startsWith(selectedMonth)
+);
 
         if (records.length === 0) {
             analysisContent.innerHTML = `
@@ -1061,6 +1302,7 @@ async function renderAnalysis(selectedMonth) {
                     ${worstActivity ? `(${worstActivity.badAverage.toFixed(2)}점)` : ""}
                 </p>
             </div>
+                        ${trendChart}
         `;
 
     } catch (error) {
