@@ -1,0 +1,953 @@
+
+/* ==========================================
+   마음결 MAUM-GYEOL
+   기본 디자인
+========================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #f6f7f3;
+    --white: #ffffff;
+    --green: #668b72;
+    --green-dark: #496d55;
+    --green-light: #eaf1eb;
+    --text: #303b33;
+    --sub-text: #879087;
+    --border: #e8ebe5;
+    --good: #5d9a70;
+    --good-bg: #edf6ef;
+    --bad: #c87979;
+    --bad-bg: #fbefef;
+}
+
+body {
+    font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
+
+/* ==========================================
+   전체 레이아웃
+========================================== */
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   사이드바
+========================================== */
+
+.sidebar {
+    width: 245px;
+    min-width: 245px;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 35px 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    padding: 0 12px;
+    margin-bottom: 55px;
+}
+
+.logo h1 {
+    font-size: 29px;
+    color: var(--green-dark);
+    letter-spacing: -1px;
+}
+
+.logo p {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--sub-text);
+    margin-top: 6px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.menu-item {
+    width: 100%;
+    padding: 16px 18px;
+    text-align: left;
+    background: transparent;
+    border-radius: 10px;
+    color: #737d74;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.menu-item:hover {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.menu-item.active {
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-weight: 700;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 20px 12px 5px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #a0aaa0;
+}
+
+/* ==========================================
+   메인 콘텐츠
+========================================== */
+
+.main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 38px 48px;
+}
+
+.top-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 35px;
+}
+
+.header-subtitle {
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 2px;
+    margin-bottom: 7px;
+}
+
+.top-header h2 {
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.today-date {
+    color: var(--sub-text);
+    font-size: 13px;
+}
+
+/* ==========================================
+   환영 영역
+========================================== */
+
+.welcome-section {
+    background: linear-gradient(120deg, #eaf1eb, #f3f5ed);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 25px;
+}
+
+.welcome-section h3 {
+    font-size: 21px;
+    color: var(--green-dark);
+    margin-bottom: 11px;
+}
+
+.welcome-section p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #788579;
+}
+
+/* ==========================================
+   요약 카드
+========================================== */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: var(--white);
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.summary-card p {
+    font-size: 13px;
+    color: var(--sub-text);
+    margin-bottom: 15px;
+}
+
+.summary-card strong {
+    font-size: 27px;
+    color: var(--text);
+}
+
+.summary-card.good-card strong {
+    color: var(--good);
+}
+
+.summary-card.bad-card strong {
+    color: var(--bad);
+}
+
+/* ==========================================
+   콘텐츠 카드
+========================================== */
+
+.content-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 27px;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+}
+
+.card-header h3 {
+    font-size: 17px;
+}
+
+.empty-state {
+    padding: 55px 15px;
+    text-align: center;
+    color: #a2aaa2;
+    font-size: 14px;
+}
+
+/* ==========================================
+   공통 입력 및 버튼
+========================================== */
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 14px;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   모바일 반응형
+========================================== */
+
+@media (max-width: 768px) {
+
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 0;
+        padding: 18px 16px 12px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+        margin-bottom: 18px;
+        padding: 0 5px;
+    }
+
+    .logo h1 {
+        font-size: 25px;
+    }
+
+    .menu {
+        flex-direction: row;
+        gap: 5px;
+        overflow-x: auto;
+        padding-bottom: 3px;
+    }
+
+    .menu-item {
+        width: auto;
+        flex: 0 0 auto;
+        padding: 12px 14px;
+        font-size: 13px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .sidebar-bottom {
+        display: none;
+    }
+
+    .main-content {
+        padding: 25px 17px;
+    }
+
+    .top-header {
+        margin-bottom: 25px;
+    }
+
+    .top-header h2 {
+        font-size: 22px;
+    }
+
+    .today-date {
+        font-size: 11px;
+    }
+
+    .welcome-section {
+        padding: 24px 20px;
+    }
+
+    .welcome-section h3 {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    .welcome-section p {
+        font-size: 13px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .summary-card {
+        padding: 20px;
+    }
+
+    .summary-card p {
+        margin-bottom: 9px;
+    }
+
+    .summary-card strong {
+        font-size: 24px;
+    }
+
+    .content-card {
+        padding: 20px 16px;
+    }
+
+}
+
+
+/* ==========================================
+   감정 기록 입력 화면
+========================================== */
+
+.record-card {
+    max-width: 850px;
+}
+
+.form-description {
+    color: var(--sub-text);
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.form-group {
+    margin-bottom: 27px;
+}
+
+.form-group > label,
+.emotion-group > label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 14px;
+    background: #fcfdfb;
+    color: var(--text);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--green);
+}
+
+.form-group textarea {
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.emotion-group {
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+}
+
+.emotion-group > p {
+    font-size: 13px;
+    color: var(--sub-text);
+    margin-bottom: 20px;
+}
+
+.good-group {
+    background: var(--good-bg);
+}
+
+.good-group > label {
+    color: var(--good);
+}
+
+.bad-group {
+    background: var(--bad-bg);
+}
+
+.bad-group > label {
+    color: var(--bad);
+}
+
+.score-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+}
+
+.score-option {
+    cursor: pointer;
+}
+
+.score-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.score-option span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 53px;
+    border-radius: 9px;
+    border: 1px solid #dce7dc;
+    background: white;
+    color: #738075;
+    font-size: 17px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.good-group .score-option input:checked + span {
+    background: var(--good);
+    border-color: var(--good);
+    color: white;
+}
+
+.bad-group .score-option input:checked + span {
+    background: var(--bad);
+    border-color: var(--bad);
+    color: white;
+}
+
+.score-option span:hover {
+    border-color: var(--green);
+}
+
+.score-option input:focus-visible + span {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+.save-button {
+    background: var(--green);
+    color: white;
+    padding: 15px 38px;
+    border-radius: 9px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.save-button:hover {
+    background: var(--green-dark);
+}
+
+.save-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.save-message {
+    color: var(--bad);
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+
+    .emotion-group {
+        padding: 18px 14px;
+    }
+
+    .score-options {
+        gap: 7px;
+    }
+
+    .score-option span {
+        height: 48px;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+
+}
+
+
+/* ==========================================
+   기록 조회 화면
+========================================== */
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.history-header h3 {
+    font-size: 18px;
+}
+
+.history-header input {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px;
+    color: var(--text);
+    background: #fcfdfb;
+}
+
+.history-count {
+    font-size: 13px;
+    color: var(--sub-text);
+    margin-bottom: 15px;
+}
+
+.history-item {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 14px;
+    background: #fff;
+}
+
+.history-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.history-date {
+    display: block;
+    font-size: 12px;
+    color: var(--sub-text);
+    margin-bottom: 8px;
+}
+
+.history-item h4 {
+    font-size: 17px;
+    color: var(--text);
+}
+
+.history-scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.history-score {
+    padding: 15px;
+    border-radius: 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-score span {
+    font-size: 13px;
+}
+
+.history-score strong {
+    font-size: 18px;
+}
+
+.history-score.good-score {
+    background: var(--good-bg);
+    color: var(--good);
+}
+
+.history-score.bad-score {
+    background: var(--bad-bg);
+    color: var(--bad);
+}
+
+.history-memo {
+    border-top: 1px solid var(--border);
+    padding-top: 15px;
+}
+
+.history-memo span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sub-text);
+}
+
+.history-memo p {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-top: 8px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: #606b61;
+}
+
+@media (max-width: 768px) {
+
+    .history-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-header input {
+        width: 100%;
+    }
+
+    .history-item {
+        padding: 17px;
+    }
+
+    .history-score {
+        padding: 13px 10px;
+    }
+
+}
+
+
+/* ==========================================
+   기록 수정 및 삭제 버튼
+========================================== */
+
+.history-actions {
+    display: flex;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.history-actions button,
+.cancel-button {
+    padding: 9px 15px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.edit-record-button {
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+.edit-record-button:hover {
+    background: #dce9de;
+}
+
+.delete-record-button {
+    background: var(--bad-bg);
+    color: var(--bad);
+}
+
+.delete-record-button:hover {
+    background: #f5dfdf;
+}
+
+.edit-form-actions {
+    gap: 10px;
+}
+
+.cancel-button {
+    background: #eef0ed;
+    color: #667066;
+    padding: 15px 25px;
+    font-size: 14px;
+}
+
+.cancel-button:hover {
+    background: #e2e6e0;
+}
+
+@media (max-width: 480px) {
+
+    .history-item-top {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .history-actions {
+        gap: 5px;
+    }
+
+    .history-actions button {
+        padding: 8px 10px;
+    }
+
+}
+
+
+.analysis-section {
+    margin-top: 30px;
+}
+
+.analysis-section h3 {
+    margin-bottom: 20px;
+}
+
+.activity-analysis {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.activity-analysis-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.analysis-score {
+    display: grid;
+    grid-template-columns: 45px 1fr 45px;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.analysis-bar {
+    height: 12px;
+    background: var(--bg);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.analysis-bar div {
+    height: 100%;
+    border-radius: 10px;
+}
+
+.good-bar div {
+    background: var(--good);
+}
+
+.bad-bar div {
+    background: var(--bad);
+}
+
+.analysis-score strong {
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .analysis-score {
+        grid-template-columns: 40px 1fr 40px;
+        gap: 7px;
+    }
+}
+
+
+.emotion-type-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 15px 0 25px;
+}
+
+.emotion-type-option {
+    cursor: pointer;
+}
+
+.emotion-type-option input {
+    display: none;
+}
+
+.emotion-type-option span {
+    display: block;
+    padding: 16px;
+    text-align: center;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-weight: 600;
+    background: var(--white);
+}
+
+.good-type input:checked + span {
+    border-color: var(--good);
+    background: var(--good-bg);
+    color: var(--good);
+}
+
+.bad-type input:checked + span {
+    border-color: var(--bad);
+    background: var(--bad-bg);
+    color: var(--bad);
+}
+
+
+/* ==========================================
+   월별 분석 화면 디자인 개선
+========================================== */
+
+/* 상단 요약 카드 */
+.summary-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.summary-cards .summary-card {
+    background: var(--white);
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.summary-cards .summary-card span {
+    display: block;
+    font-size: 13px;
+    color: var(--sub-text);
+    margin-bottom: 15px;
+}
+
+.summary-cards .summary-card strong {
+    font-size: 27px;
+    color: var(--text);
+}
+
+.summary-cards .summary-card:nth-child(2) strong {
+    color: var(--good);
+}
+
+.summary-cards .summary-card:nth-child(3) strong {
+    color: var(--bad);
+}
+
+/* 분석 영역 카드 */
+.analysis-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 27px;
+    margin-top: 20px;
+}
+
+.analysis-section h3 {
+    font-size: 17px;
+    margin-bottom: 22px;
+}
+
+/* 활동별 비교 */
+.activity-analysis {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.activity-analysis:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.activity-analysis-header strong {
+    font-size: 15px;
+}
+
+.activity-analysis-header span {
+    font-size: 13px;
+    color: var(--sub-text);
+}
+
+.analysis-score {
+    margin: 13px 0;
+}
+
+.analysis-bar {
+    height: 11px;
+    background: #f0f2ee;
+}
+
+/* 활동별 분석 결과 */
+.analysis-section p {
+    font-size: 14px;
+    line-height: 2;
+    color: #687268;
+}
+
+.analysis-section p strong {
+    color: var(--green-dark);
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+
+    .summary-cards {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .summary-cards .summary-card {
+        padding: 20px;
+    }
+
+    .summary-cards .summary-card span {
+        margin-bottom: 9px;
+    }
+
+    .summary-cards .summary-card strong {
+        font-size: 24px;
+    }
+
+    .analysis-section {
+        padding: 20px 16px;
+    }
+
+}

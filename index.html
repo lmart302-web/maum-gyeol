@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마음결 | MAUM-GYEOL</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- 사이드 메뉴 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>마음결</h1>
+                <p>MAUM-GYEOL</p>
+            </div>
+
+            <nav class="menu">
+    <button class="menu-item active" data-page="analysis">
+        월별 분석
+    </button>
+
+    <button class="menu-item" data-page="record">
+        감정 기록
+    </button>
+
+    <button class="menu-item" data-page="history">
+        기록 조회
+    </button>
+</nav>
+
+            <div class="sidebar-bottom">
+                <p>마음을 기록하고</p>
+                <p>작은 변화를 이해합니다.</p>
+            </div>
+        </aside>
+
+        <!-- 메인 화면 -->
+        <main class="main-content">
+
+            <header class="top-header">
+                <div>
+                    <p class="header-subtitle">MAUM-GYEOL</p>
+                    <h2 id="pageTitle">월별 분석</h2>
+                </div>
+
+                <div class="today-date" id="todayDate"></div>
+            </header>
+
+            <section id="pageContent">
+</section>
+
+        </main>
+
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+
+</body>
+</html>
